@@ -5,7 +5,8 @@ CREATE TABLE IF NOT EXISTS users (
     middle_name VARCHAR(100),
     last_name VARCHAR(100) NOT NULL,
     email VARCHAR(50) NOT NULL UNIQUE,
-    phone VARCHAR(12) CONSTRAINT chk_phone CHECK (phone ~ '^\+7\d{10}$')
+    phone VARCHAR(12) UNIQUE,
+    CONSTRAINT chk_phone CHECK (phone ~ '^\+7\d{10}$')
 );
 
 -- Таблица статусов
@@ -18,7 +19,7 @@ CREATE TABLE IF NOT EXISTS statuses (
 CREATE TABLE IF NOT EXISTS pickup_points (
     id SERIAL PRIMARY KEY,
     address TEXT NOT NULL UNIQUE,
-    phone VARCHAR(12) NOT NULL, 
+    phone VARCHAR(12) NOT NULL UNIQUE, 
     CONSTRAINT chk_phone CHECK (phone ~ '^\+7\d{10}$')
 );
 
@@ -26,7 +27,7 @@ CREATE TABLE IF NOT EXISTS pickup_points (
 CREATE TABLE IF NOT EXISTS warehouses (
     id SERIAL PRIMARY KEY,
     address TEXT NOT NULL UNIQUE,
-    phone VARCHAR(12) NOT NULL,
+    phone VARCHAR(12) NOT NULL UNIQUE,
     CONSTRAINT chk_phone CHECK (phone ~ '^\+7\d{10}$')
 );
 
@@ -57,8 +58,8 @@ CREATE TABLE IF NOT EXISTS orders (
     status_id SMALLINT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (pickup_point_id) REFERENCES pickup_points(id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (pickup_point_id) REFERENCES pickup_points(id) ON DELETE CASCADE,
     FOREIGN KEY (status_id) REFERENCES statuses(id)
 );
 

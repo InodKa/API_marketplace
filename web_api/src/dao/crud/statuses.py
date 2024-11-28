@@ -28,6 +28,6 @@ async def create_status(db: AsyncSession, status: StatusCreate):
 
 # Удалить статус
 async def delete_status(db: AsyncSession, status_id: int):
-    result = db.execute(delete(Status).where(Status.id == status_id).returning(Status))
+    result = await db.execute(delete(Status).where(Status.id == status_id).returning(Status))
     await db.commit()
     return result.scalars().first()

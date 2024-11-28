@@ -17,8 +17,8 @@ async def create_user(user: UserCreate, db: AsyncSession = Depends(get_db)):
 
 @router.get("/", response_model=List[User])
 async def read_users(skip: int = 0, limit: int = 100, db: AsyncSession = Depends(get_db)):
-    users = await users.get_users(db, skip=skip, limit=limit)
-    return users
+    user_list = await users.get_users(db, skip=skip, limit=limit)
+    return user_list
 
 @router.get("/{user_id}", response_model=User)
 async def read_user(user_id: int, db: AsyncSession = Depends(get_db)):

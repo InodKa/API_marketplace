@@ -3,17 +3,19 @@ from sqlalchemy.future import select
 from sqlalchemy import update, delete
 from ..models import User
 from schemas.user import UserCreate, UserUpdate
-from sqlalchemy.exc import NoResultFound
+
+
+# Получить список пользователей с пагинацией
+async def get_users(db: AsyncSession, skip: int = 0, limit: int = 100):
+    result = await db.execute(select(User).offset(skip).limit(limit))
+    return result.scalars().all()
+
 
 # Получить пользователя по ID
 async def get_user(db: AsyncSession, user_id: int):
     result = await db.execute(select(User).where(User.id == user_id))
     return result.scalars().first()
 
-# Получить список пользователей с пагинацией
-async def get_users(db: AsyncSession, skip: int = 0, limit: int = 100):
-    result = await db.execute(select(User).offset(skip).limit(limit))
-    return result.scalars().all()
 
 # Создать нового пользователя
 async def create_user(db: AsyncSession, user: UserCreate):
@@ -34,6 +36,7 @@ async def update_user(db: AsyncSession, user_id: int, user: UserUpdate):
     result = await db.execute(stmt)
     await db.commit()
     return result.scalars().first()
+
 
 # Удалить пользователя
 async def delete_user(db: AsyncSession, user_id: int):

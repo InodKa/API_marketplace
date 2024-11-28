@@ -1,6 +1,7 @@
 from pydantic import BaseModel, EmailStr, Field
 from typing import Optional
 
+
 class UserBase(BaseModel):
     first_name: str
     middle_name: Optional[str] = None

@@ -17,11 +17,11 @@ async def create_status(Status: StatusCreate, db: AsyncSession = Depends(get_db)
 
 @router.get("/", response_model=List[Status])
 async def read_statuses(skip: int = 0, limit: int = 100, db: AsyncSession = Depends(get_db)):
-    statuses = await statuses.get_statuses(db, skip=skip, limit=limit)
-    return statuses
+    statuses_list = await statuses.get_statuses(db, skip=skip, limit=limit)
+    return statuses_list
 
 @router.get("/{status_id}", response_model=Status)
-async def read_Status(status_id: int, db: AsyncSession = Depends(get_db)):
+async def read_status(status_id: int, db: AsyncSession = Depends(get_db)):
     db_status = await statuses.get_status(db, status_id=status_id)
     if db_status is None:
         raise HTTPException(status_code=404, detail="Status not found")
@@ -29,8 +29,8 @@ async def read_Status(status_id: int, db: AsyncSession = Depends(get_db)):
 
 
 @router.delete("/{status_id}", response_model=Status)
-async def delete_Status(status_id: int, db: AsyncSession = Depends(get_db)):
-    db_status = await statuses.delete_Status(db, status_id)
+async def delete_status(status_id: int, db: AsyncSession = Depends(get_db)):
+    db_status = await statuses.delete_status(db, status_id)
     if db_status is None:
         raise HTTPException(status_code=404, detail="Status not found")
     return db_status
