@@ -1,32 +1,46 @@
-# docker-compose.yml
-
-version: '3.9'
+version: '3.8'
 
 services:
-  db:
-    image: postgres:14
-    restart: always
+  postgres:
+    build:
+      context: ..
+      dockerfile: docker/postgres/Dockerfile
+    container_name: pg_marketplace
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: mydatabase
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+      POSTGRES_USER: pguser
+      POSTGRES_PASSWORD: pgpassword
+      POSTGRES_DB: marketplace_db
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - marketplace_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pguser -d marketplace_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  web:
-    build: .
-    restart: always
-    depends_on:
-      - db
+  web_api:
+    build:
+      context: ..
+      dockerfile: docker/web_api/Dockerfile
+    container_name: web_api_marketplace
     ports:
       - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
     environment:
-      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/mydatabase
-    volumes:
-      - .:/app
-    command: uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
+      DATABASE_URL: postgresql+asyncpg://pguser:pgpassword@postgres:5432/marketplace_db
+    networks:
+      - marketplace_network
 
 volumes:
   postgres_data:
+
+networks:
+  marketplace_network:
+    driver: bridge
+ 

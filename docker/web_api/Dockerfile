@@ -1,25 +1,17 @@
-# Dockerfile
-
-# Базовый образ
+# docker/web_api/Dockerfile
 FROM python:3.11-slim
 
-# Установим переменные окружения
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-
-# Установим рабочую директорию
 WORKDIR /app
 
-# Установим системные зависимости
-RUN apt-get update && apt-get install -y build-essential libpq-dev && rm -rf /var/lib/apt/lists/*
-
-# Скопируем файл зависимостей и установим их
-COPY requirements.txt .
-RUN pip install --upgrade pip
+# Установка зависимостей
+COPY ../requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Скопируем весь проект
-COPY . .
+# Копирование исходного кода
+COPY ../../web_api/src /app
 
-# Команда запуска приложения
-CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+# Установка PYTHONPATH
+ENV PYTHONPATH=/app
+
+# Запуск приложения с использованием Uvicorn
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
