@@ -2,11 +2,13 @@
 
 Содержит конфигурации и скрипты для баз данных.
 
-`postgresql/` — настройки и скрипты для PostgreSQL.
+
+`postgresql/` — настройки и скрипты для PostgreSQL.\
 `mongodb/` — настройки и скрипты для MongoDB.
 
 ER-диаграмма БД в postgresql:
 
+```mermaid
 erDiagram
     USERS {
         int id PK
@@ -98,3 +100,4 @@ erDiagram
     WAREHOUSES ||--o{ TRANSFERS : from
     PICKUP_POINTS ||--o{ TRANSFERS : "to"
     STATUSES ||--o{ TRANSFERS : has
+```
