@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from routers import users
-# Импортируйте другие роутеры аналогично
+from routers import users, statuses
+
 
 app = FastAPI(
     title="Marketplace API",
@@ -9,6 +9,7 @@ app = FastAPI(
 )
 
 app.include_router(users.router)
+app.include_router(statuses.router)
 # Подключите другие роутеры аналогично
 
 # Инициализация базы данных при старте приложения

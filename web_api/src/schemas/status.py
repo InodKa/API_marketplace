@@ -10,10 +10,6 @@ class StatusCreate(StatusBase):
     pass
 
 
-class StatusUpdate(BaseModel):
-    name: Optional[str] = None
-
-
 class Status(StatusBase):
     id: int
 

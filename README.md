@@ -1,5 +1,6 @@
 # API_marketplace
 
+
 ```
 API_marketplace
 ├─ .gitignore
@@ -18,19 +19,20 @@ API_marketplace
 │  └─ web_api
 │     └─ Dockerfile
 └─ web_api
+   ├─ README.md
    └─ src
-      ├─ __init__.py
       ├─ dao
-      │  ├─ __init__.py
-      │  ├─ crud.py
+      │  ├─ crud
+      │  │  ├─ statuses.py
+      │  │  └─ users.py
       │  ├─ database.py
       │  └─ models.py
       ├─ main.py
       ├─ routers
-      │  ├─ __init__.py
+      │  ├─ statuses.py
       │  └─ users.py
       └─ schemas
-         ├─ __init__.py
+         ├─ status.py
          └─ user.py
 
 ```

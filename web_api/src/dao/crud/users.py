@@ -1,7 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy import update, delete
-from .models import User
+from ..models import User
 from schemas.user import UserCreate, UserUpdate
 from sqlalchemy.exc import NoResultFound
 
