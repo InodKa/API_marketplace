@@ -27,7 +27,7 @@ class Status(Base):
     orders = relationship("Order", back_populates="status")
     transfers = relationship("Transfer", back_populates="status")
 
-class PickupPoint(Base):
+class Pickup_point(Base):
     __tablename__ = 'pickup_points'
 
     id = Column(Integer, primary_key=True, index=True)
