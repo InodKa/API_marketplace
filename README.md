@@ -11,7 +11,8 @@ API_marketplace
 │  └─ postgres
 │     ├─ README.md
 │     └─ scripts
-│        └─ create_tables.sql
+│        ├─ create_tables.sql
+│        └─ seed_data.sql
 ├─ docker
 │  ├─ docker-compose.yml
 │  ├─ postgres
@@ -23,16 +24,22 @@ API_marketplace
    └─ src
       ├─ dao
       │  ├─ crud
+      │  │  ├─ pickup_points.py
       │  │  ├─ statuses.py
-      │  │  └─ users.py
+      │  │  ├─ users.py
+      │  │  └─ warehouses.py
       │  ├─ database.py
       │  └─ models.py
       ├─ main.py
       ├─ routers
+      │  ├─ pickup_points.py
       │  ├─ statuses.py
-      │  └─ users.py
+      │  ├─ users.py
+      │  └─ warehouses.py
       └─ schemas
+         ├─ pickup_point.py
          ├─ status.py
-         └─ user.py
+         ├─ user.py
+         └─ warehouse.py
 
 ```
