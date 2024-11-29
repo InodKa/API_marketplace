@@ -6,6 +6,8 @@ CREATE TABLE IF NOT EXISTS users (
     last_name VARCHAR(100) NOT NULL,
     email VARCHAR(50) NOT NULL UNIQUE,
     phone VARCHAR(12) UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  
     CONSTRAINT chk_phone CHECK (phone ~ '^\+7\d{10}$')
 );
 
