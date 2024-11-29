@@ -83,7 +83,7 @@ class Order(Base):
     updated_at = Column(TIMESTAMP, server_default=func.now(), onupdate=func.now())
 
     user = relationship("User", back_populates="orders")
-    pickup_point = relationship("PickupPoint", back_populates="orders")
+    pickup_point = relationship("Pickup_point", back_populates="orders")
     status = relationship("Status", back_populates="orders")
     order_items = relationship("OrderItem", back_populates="order", cascade="all, delete-orphan")
 
@@ -130,5 +130,5 @@ class Transfer(Base):
     order = relationship("Order")
     product = relationship("Product", back_populates="transfers")
     from_warehouse = relationship("Warehouse", back_populates="transfers_from")
-    to_pickup_point = relationship("PickupPoint", back_populates="transfers")
+    to_pickup_point = relationship("Pickup_point", back_populates="transfers")
     status = relationship("Status", back_populates="transfers")

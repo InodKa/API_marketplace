@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routers import users, statuses, pickup_points, warehouses
+from routers import users, statuses, pickup_points, warehouses, categories
 
 
 app = FastAPI(
@@ -12,6 +12,7 @@ app.include_router(users.router)
 app.include_router(statuses.router)
 app.include_router(pickup_points.router)
 app.include_router(warehouses.router)
+app.include_router(categories.router)
 
 
 # Инициализация базы данных при старте приложения
