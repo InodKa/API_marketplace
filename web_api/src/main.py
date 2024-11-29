@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from routers import users, statuses, pickup_points, warehouses, categories, products
 from routers import orders, order_items, inventories, transfers
-
+from scheduler import start_scheduler
 
 app = FastAPI(
     title="Marketplace API",
@@ -27,3 +27,4 @@ async def on_startup():
     async with engine.begin() as conn:
         # Создание всех таблиц
         await conn.run_sync(Base.metadata.create_all)
+    start_scheduler()

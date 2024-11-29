@@ -1,8 +1,10 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DECIMAL, Text, TIMESTAMP, SmallInteger
+from sqlalchemy import DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from sqlalchemy.schema import UniqueConstraint
+from datetime import datetime
 
 Base = declarative_base()
 
@@ -15,8 +17,22 @@ class User(Base):
     last_name = Column(String(100), nullable=False)
     email = Column(String(50), unique=True, nullable=False, index=True)
     phone = Column(String(12), nullable=False, unique=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     orders = relationship("Order", back_populates="user", cascade="all, delete-orphan")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "first_name": self.first_name,
+            "middle_name": self.middle_name,
+            "last_name": self.last_name,
+            "email": self.email,
+            "phone": self.phone,
+            "created_at": self.created_at.isoformat(),
+            "updated_at": self.updated_at.isoformat()
+        }
 
 class Status(Base):
     __tablename__ = 'statuses'

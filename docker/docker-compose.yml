@@ -34,6 +34,9 @@ services:
         condition: service_healthy
     environment:
       DATABASE_URL: postgresql+asyncpg://pguser:pgpassword@postgres:5432/marketplace_db
+      EXPORT_DIRECTORY: ${EXPORT_DIRECTORY}
+    volumes:
+      - ${EXPORT_DIRECTORY}:/export
     networks:
       - marketplace_network
 
