@@ -5,19 +5,19 @@ from ..models import OrderItem
 from schemas.order_item import OrderItemCreate, OrderItemUpdate
 
 
-# Получить список продуктов
+# Получить список элементов заказов
 async def get_order_items(db: AsyncSession, skip: int = 0, limit: int = 100):
     result = await db.execute(select(OrderItem).offset(skip).limit(limit))
     return result.scalars().all()
 
 
-# Получить продукт по ID
+# Получить элемент заказа по ID
 async def get_order_item(db: AsyncSession, order_item_id: int):
     result = await db.execute(select(OrderItem).where(OrderItem.id == order_item_id))
     return result.scalars().first()
 
 
-# Создать новый продукт
+# Создать элемент заказа
 async def create_order_item(db: AsyncSession, order_item: OrderItemCreate):
     db_order_item = OrderItem(**order_item.dict())
     db.add(db_order_item)
@@ -25,7 +25,7 @@ async def create_order_item(db: AsyncSession, order_item: OrderItemCreate):
     await db.refresh(db_order_item)
     return db_order_item
 
-# Обновить информацию о продукте
+# Обновить информацию об элементе заказа
 async def update_order_item(db: AsyncSession, order_item_id: int, order_item: OrderItemUpdate):
     stmt = (
         update(OrderItem).
@@ -38,7 +38,7 @@ async def update_order_item(db: AsyncSession, order_item_id: int, order_item: Or
     return result.scalars().first()
 
 
-# Удалить продукт
+# Удалить элемент заказа
 async def delete_order_item(db: AsyncSession, order_item_id: int):
     stmt = delete(OrderItem).where(OrderItem.id == order_item_id).returning(OrderItem)
     result = await db.execute(stmt)

@@ -5,19 +5,19 @@ from ..models import Transfer
 from schemas.transfer import TransferCreate, TransferUpdate
 
 
-# Получить список продуктов
+# Получить список трансферов
 async def get_transfers(db: AsyncSession, skip: int = 0, limit: int = 100):
     result = await db.execute(select(Transfer).offset(skip).limit(limit))
     return result.scalars().all()
 
 
-# Получить продукт по ID
+# Получить трансфер по ID
 async def get_transfer(db: AsyncSession, transfer_id: int):
     result = await db.execute(select(Transfer).where(Transfer.id == transfer_id))
     return result.scalars().first()
 
 
-# Создать новый продукт
+# Создать новый трансфер
 async def create_transfer(db: AsyncSession, transfer: TransferCreate):
     db_transfer = Transfer(**transfer.dict())
     db.add(db_transfer)
@@ -25,7 +25,7 @@ async def create_transfer(db: AsyncSession, transfer: TransferCreate):
     await db.refresh(db_transfer)
     return db_transfer
 
-# Обновить информацию о продукте
+# Обновить информацию о трансфере
 async def update_transfer(db: AsyncSession, transfer_id: int, transfer: TransferUpdate):
     stmt = (
         update(Transfer).
@@ -38,7 +38,7 @@ async def update_transfer(db: AsyncSession, transfer_id: int, transfer: Transfer
     return result.scalars().first()
 
 
-# Удалить продукт
+# Удалить трансфер
 async def delete_transfer(db: AsyncSession, transfer_id: int):
     stmt = delete(Transfer).where(Transfer.id == transfer_id).returning(Transfer)
     result = await db.execute(stmt)

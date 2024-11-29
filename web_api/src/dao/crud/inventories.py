@@ -5,19 +5,19 @@ from ..models import Inventory
 from schemas.inventory import InventoryCreate, InventoryUpdate
 
 
-# Получить список продуктов
+# Получить весь инвентарь
 async def get_inventories(db: AsyncSession, skip: int = 0, limit: int = 100):
     result = await db.execute(select(Inventory).offset(skip).limit(limit))
     return result.scalars().all()
 
 
-# Получить продукт по ID
+# Получить инвентарь по ID
 async def get_inventory(db: AsyncSession, inventory_id: int):
     result = await db.execute(select(Inventory).where(Inventory.id == inventory_id))
     return result.scalars().first()
 
 
-# Создать новый продукт
+# Создать новый инвентарь
 async def create_inventory(db: AsyncSession, inventory: InventoryCreate):
     db_inventory = Inventory(**inventory.dict())
     db.add(db_inventory)
@@ -25,7 +25,7 @@ async def create_inventory(db: AsyncSession, inventory: InventoryCreate):
     await db.refresh(db_inventory)
     return db_inventory
 
-# Обновить информацию о продукте
+# Обновить информацию об инвентаре
 async def update_inventory(db: AsyncSession, inventory_id: int, inventory: InventoryUpdate):
     stmt = (
         update(Inventory).
@@ -38,7 +38,7 @@ async def update_inventory(db: AsyncSession, inventory_id: int, inventory: Inven
     return result.scalars().first()
 
 
-# Удалить продукт
+# Удалить инвентарь
 async def delete_inventory(db: AsyncSession, inventory_id: int):
     stmt = delete(Inventory).where(Inventory.id == inventory_id).returning(Inventory)
     result = await db.execute(stmt)
